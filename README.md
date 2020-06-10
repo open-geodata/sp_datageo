@@ -31,7 +31,7 @@ O *link* para um determinado arquivo *geojson* no repositório é apresentado ab
 https://github.com/michelmetran/geo_SP_DataGeo/blob/master/data/LimiteMunicipal.geojson
 ```
 
-A partir disso faz-se necessário alterar `github.com` `raw.githubusercontent.com` e remover o `blob/`. Com isso é possível ler o arquivo *geojson* diretamente nos códigos do python usando, por exemplo, a biblioteca *geopandas*.
+A partir disso faz-se necessário alterar `github.com` por `raw.githubusercontent.com` e remover o `blob/`. Com isso é possível ler o arquivo *geojson* diretamente nos códigos do python usando, por exemplo, a biblioteca *geopandas*.
 
 ```python
 import geopandas as gpd
@@ -40,7 +40,4 @@ url = 'https://raw.githubusercontent.com/michelmetran/geo_SP_DataGeo/master/data
 gdf_mun = gpd.read_file(url)
 ```
 
-
-
-<script src="https://embed.github.com/view/geojson/michelmetran/geo_SP_DataGeo/master/data/LimiteMunicipal.geojson"></script>
 
