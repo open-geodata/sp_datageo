@@ -10,7 +10,7 @@ As informações são disponibilizadas, majoritariamente, em formato WMS (*Web M
 
 ## Objetivo do repositório
 
-Este repositório tem a finalidade de disponibilizar as rotinas empregadas para fazer o *download e tratamento dos dados, bem como disponibilizar os dados de maneira remota, sendo facilmente utilizado em outras aplicações.
+Este repositório tem a finalidade de disponibilizar as rotinas empregadas para fazer o *download* e tratamento dos dados, bem como disponibilizar os dados de maneira remota, sendo facilmente utilizado em outras aplicações.
 
 
 - ***Download***: tentativa de busca dos dados por meio do *link* dos metadados;
@@ -20,3 +20,27 @@ Este repositório tem a finalidade de disponibilizar as rotinas empregadas para 
 - ***Transformação de Projeção***: buscar padronizar a base de dados em EPSG: 4326, tento em vista ser o mais empregado em *webmaps*;
 
 - ***Excluir Lixos***: deletar arquivos intermediários, mantendo apenas o arquivo bruto e a versão que utilizo em outros códigos.
+
+
+
+## Consumindo Dados  do repositório
+
+O *link* para um determinado arquivo *geojson* no repositório é apresentado abaixo
+
+```bash
+https://github.com/michelmetran/geo_SP_DataGeo/blob/master/data/LimiteMunicipal.geojson
+```
+
+A partir disso faz-se necessário alterar `github.com` `raw.githubusercontent.com` e remover o `blob/`. Com isso é possível ler o arquivo *geojson* diretamente nos códigos do python usando, por exemplo, a biblioteca *geopandas*.
+
+```python
+import geopandas as gpd
+
+url = 'https://raw.githubusercontent.com/michelmetran/geo_SP_DataGeo/master/data/LimiteMunicipal.geojson'
+gdf_mun = gpd.read_file(url)
+```
+
+
+
+<script src="https://embed.github.com/view/geojson/michelmetran/geo_SP_DataGeo/master/data/LimiteMunicipal.geojson"></script>
+
