@@ -23,7 +23,7 @@ Este repositório tem a finalidade de disponibilizar as rotinas empregadas para 
 
 
 
-## Consumindo Dados  do repositório
+## Consumindo dados do repositório
 
 O *link* para um determinado arquivo *geojson* no repositório é apresentado abaixo
 
