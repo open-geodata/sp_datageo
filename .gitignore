@@ -1,3 +1,15 @@
+# Data
+data/
+data2/
+
+# Selenium
+adds/
+logs/
+
+# IDEs
+.idea/
+.vscode/
+
 .gitignore
 .gitattributes
 .ipynb_checkpoints

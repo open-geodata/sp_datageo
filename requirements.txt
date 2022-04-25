@@ -1,5 +1,5 @@
-requests==2.23.0
-geopandas==0.7.0
-matplotlib==3.2.1
-descartes==1.1.0
-beautifulsoup4==4.9.1
+requests>=2.23.0
+geopandas>=0.7.0
+matplotlib>=3.2.1
+descartes>=1.1.0
+beautifulsoup4>=4.9.1
