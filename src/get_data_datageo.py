@@ -3,18 +3,23 @@
 
 import os
 import re
+import sys
 import shutil
 import zipfile
 import requests
 import geopandas as gpd
-from datetime import date
 from bs4 import BeautifulSoup
+
+
+sys.path.append(os.path.join(os.getcwd(), '..', 'src'))
+from paths import *
 
 
 def get_filename_from_cd(cd):
     """
     Get filename from content-disposition
     """
+    
     if not cd:
         return None
     fname = re.findall('filename=(.+)', cd)
@@ -23,17 +28,18 @@ def get_filename_from_cd(cd):
     return fname[0]
 
 
-def download_datageo_shp(id_lyr, output_path):
+def get_url_shapefile(id_lyr):
+    '''
+    Pega a URL do shapefile
+    
+    '''
+    
     # Input dos caminhos para os metadados
     url_api = 'http://datageo.ambiente.sp.gov.br/geoportal/catalog/search/resource/details.page?uuid='
-
-    # URL
     url_meta = '{}{}'.format(url_api, '%7B{}%7D'.format(id_lyr))
-    print('Página com metadados:\n{}'.format(url_meta))    
 
     # Abre a página dos metadados
     r = requests.get(url_meta, allow_redirects=True)
-    print('Resposta da página foi {}'.format(r))
 
     # Parser HTML
     soup = BeautifulSoup(r.content, 'html.parser')
@@ -45,39 +51,70 @@ def download_datageo_shp(id_lyr, output_path):
         #print(text)
         for j in text:
             #print(j)
-            if j in 'Shapefile':
-                print('> Encontrei o shapefile')
+            if j in 'Shapefile':                
                 url = i['href']
-                print('Link: {}'.format(url))
+                print('Encontrei o shapefile:\n{}\n'.format(url))
+                return url
 
-    # Download do arquivo e paga o nome a partir do content-disposition
-    # Arquivo zip (shapefile) vai para a pasta de 'data/brutos'
-    r = requests.get(url, allow_redirects=True)
-    filename = get_filename_from_cd(r.headers.get('content-disposition'))
-    open(os.path.join(output_path, filename), 'wb').write(r.content)
 
-    # Com o nome do arquivo, é realizado o download da página dos metadados
-    file_meta = filename.split('.')[0]
+def get_metadata_file(id_lyr, output_path, filename=None):
+    '''
+    Salva arquivo de metadados
+    
+    '''
+    
+    # Input dos caminhos para os metadados
+    url_api = 'http://datageo.ambiente.sp.gov.br/geoportal/catalog/search/resource/details.page?uuid='
+    
+    # URL
+    url_meta = '{}{}'.format(url_api, '%7B{}%7D'.format(id_lyr))
+    print('Página com metadados:\n{}'.format(url_meta))
+
+    # Set Filename
+    if filename is None:
+        url = get_url_shapefile(id_lyr)
+        r = requests.get(url, allow_redirects=True)
+        filename_cd = get_filename_from_cd(r.headers.get('content-disposition'))
+        filename_metadata = filename_cd.split('.')[0]
+    
+    else:
+        filename_metadata = filename
+    
+    # Get Metadata File
     r = requests.get(url_meta, allow_redirects=True)
-    open(os.path.join(output_path, '{}.html'.format(file_meta)), 'wb').write(r.content)
+    open(os.path.join(output_path, '{}.html'.format(filename_metadata)), 'wb').write(r.content)
+    print('Página HTML dos metadados salva!\n')
+
+
+def download_shapefile(id_lyr, output_path, filename=None):
+    # Get Shapefile
+    url = get_url_shapefile(id_lyr)
+    r = requests.get(url, allow_redirects=True)
+    
+    # Set Filename
+    if filename is None:
+        # Get Zip filename from CD
+        zip_filename = get_filename_from_cd(r.headers.get('content-disposition'))
+    
+    else:
+        zip_filename = f'{filename}.zip'
+        
+    # Get Zipfile
+    open(os.path.join(output_path, zip_filename), 'wb').write(r.content)
 
     # Unzip
-    file = os.path.join(output_path, filename)
-    temp = os.path.join(os.path.dirname(file), 'temp')
-    os.makedirs(temp, exist_ok=True)
-    with zipfile.ZipFile(file, 'r') as zip_ref: zip_ref.extractall(temp)
-
-    # Lista Arquivos
-    os.listdir(temp)
+    zipfile_file = os.path.join(output_path, zip_filename)
+    zipfile_temp = os.path.join(os.path.dirname(zipfile_file), 'temp')
+    os.makedirs(zipfile_temp, exist_ok=True)
+    with zipfile.ZipFile(zipfile_file, 'r') as zip_obj:
+        zip_obj.extractall(zipfile_temp)
 
     # Pega o nome do shapefile PRECISA HAVER SOMENTE UM!
-    shp = [i for i in os.listdir(temp) if i.endswith('.shp')]
-    a = len(shp)
-    b = shp[0]
-    print('Encontrei {} arquivos ".shp", sendo que o primeiro deles é o "{}"'.format(a, b))
+    list_shps = [i for i in os.listdir(zipfile_temp) if i.endswith('.shp')]
+    print(f'Encontrei {len(list_shps)} arquivos "shapefile", sendo que o primeiro deles é o "{list_shps[0]}"')
 
     # Read shapefile
-    gdf = gpd.read_file(os.path.join(temp, shp[0]))
+    gdf = gpd.read_file(os.path.join(zipfile_temp, list_shps[0]))
     print(gdf.head())
 
     # Reprojeta
@@ -87,20 +124,18 @@ def download_datageo_shp(id_lyr, output_path):
     gdf.plot()
 
     # Excluí pasta temporária
-    shutil.rmtree(temp)
-    
+    shutil.rmtree(zipfile_temp)
     return gdf
-
-
-# Path to download
-output_path = os.path.join('..', 'data', 'brutos')    
 
 
 try:
     if __name__ == '__main__':
-        main()
+        pass
 except:
     pass
+
+
+
 
 
 

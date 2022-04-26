@@ -1,5 +1,8 @@
 # Data
-data/
+data/output/temp/
+data/output/*.zip
+data/output/*.geojson
+data/output/*.gpkg
 data2/
 
 # Selenium
