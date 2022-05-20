@@ -2,7 +2,10 @@
 
 <br>
 
-O [**DataGeo**](http://datageo.ambiente.sp.gov.br/) é o sistema da ~~Secretaria Estadual de Meio Ambiente do Estado de São Paulo (SMA)~~ [**Secretaria de Infraestrutura e Meio Ambiente (SIMA)**](https://www.infraestruturameioambiente.sp.gov.br) que disponibiliza diversas informações relevantes. Entendo que trata-se do pilar do que é chamado de *Infraestrutura de Dados Espaciais Ambientais do Estado de São Paulo*. No evento MundoGEO Connect, edição de 2014, foi feita [uma apresentação](https://mundogeoconnect.com/2014/arquivos/palestras/9_mai-a-arlete-ohata.pdf) que explica melhor a concepção do DataGeo.
+O [**DataGeo**](http://datageo.ambiente.sp.gov.br/) é o sistema da [**Secretaria de Infraestrutura e Meio Ambiente (SIMA)**](https://www.infraestruturameioambiente.sp.gov.br) que disponibiliza diversas informações relevantes. Entendo que trata-se do pilar do que é chamado de *Infraestrutura de Dados Espaciais Ambientais do Estado de São Paulo*. No evento MundoGEO Connect, edição de 2014, foi feita [uma apresentação](https://mundogeoconnect.com/2014/arquivos/palestras/9_mai-a-arlete-ohata.pdf) que explica melhor a concepção do DataGeo.
+
+O DataGeo é a interface de um Geoserver:
+- http://datageo.ambiente.sp.gov.br/geoserver/web/
 
 <br>
 
@@ -52,3 +55,4 @@ import geopandas as gpd
 url = 'https://raw.githubusercontent.com/open-geodata/sp_datageo/master/data/LimiteMunicipal.geojson'
 gdf_mun = gpd.read_file(url)
 ```
+
