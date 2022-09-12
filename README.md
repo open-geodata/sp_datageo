@@ -56,3 +56,21 @@ url = 'https://raw.githubusercontent.com/open-geodata/sp_datageo/master/data/Lim
 gdf_mun = gpd.read_file(url)
 ```
 
+
+
+
+
+# Monitoramento Água Subterrânea Poço Tubular
+http://datageo.ambiente.sp.gov.br/serviceTranslator/rest/getXml/Geoserver_Publico/MonitoramentoAguaSubterraneaPocoTubular/1435155782463/wms
+http://datageo.ambiente.sp.gov.br/geoserver/datageo/MonitoramentoAguaSubterraneaPocoTubular/wfs?version=1.0.0&request=GetFeature&outputFormat=SHAPE-ZIP&typeName=MonitoramentoAguaSubterraneaPocoTubular
+
+# Monitoramento Água Subterrânea Aquífero Freático
+http://datageo.ambiente.sp.gov.br/serviceTranslator/rest/getXml/Geoserver_Publico/MonitoramentoAguaSubterraneaAquiferoFreatico/1435155782478/wms
+http://datageo.ambiente.sp.gov.br/geoserver/datageo/MonitoramentoAguaSubterraneaAquiferoFreatico/wfs?version=1.0.0&request=GetFeature&outputFormat=SHAPE-ZIP&typeName=MonitoramentoAguaSubterraneaAquiferoFreatico
+
+
+
+
+
+
+
